@@ -1,0 +1,20 @@
+{
+  "skill_name": "revision-tracker",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "My exams start May 2nd and I have three courses: Object Oriented Java (closed book), Software Development (closed book), and Software Tools (open book). My materials are in the MCP-connected folders. Can you make me a revision plan? I have ADHD and can only focus for short bursts. Treat me as starting from zero.",
+      "expected_output": "A day-by-day revision plan covering all three courses from today to May 2, with 3 short sessions per day (25-35 min each), rest days built in, and an interactive HTML tracker file with clickable checklists per session."
+    },
+    {
+      "id": 2,
+      "prompt": "I need to revise for my Java OOP exam in 2 weeks. I have the lecture slides and workbooks in my course folder. Can you read them and make me a study schedule with a checklist I can tick off?",
+      "expected_output": "The skill reads lecture PDFs and workbook README files, extracts topics, cross-references the materials, and produces an HTML tracker where each day has sessions pointing to exact filenames (e.g. 'READ: Lecture 08 (Iterator-Pattern.pdf) + WB4 Task 5')."
+    },
+    {
+      "id": 3,
+      "prompt": "Can you turn my course materials into a revision tracker? I've got Software Tools TB2 only — HTTP, HTML, CSS, JS, scraping, PGP, protocols, and testing. The exam is open book. I need something I can tick off as I go.",
+      "expected_output": "A focused single-course revision plan for the 10 TB2 topics, with sessions emphasising understanding and cheat-sheet building (not rote memorisation), and an HTML tracker with localStorage persistence."
+    }
+  ]
+}
