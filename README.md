@@ -6,6 +6,8 @@ Built for students who have their lecture slides, briefings, and workbooks in a 
 
 > Originally built for a CS master's student juggling three exam courses with 25 days to go. Generalised to work for any subject, any course structure, and any deadline.
 
+**[→ Live demo](https://hikorido.github.io/exam_review_skill/)**
+
 ---
 
 ## What it does
@@ -24,6 +26,8 @@ Each study day gets 3 short sessions (25–35 min each), structured as:
 ---
 
 ## Demo
+
+**[→ https://hikorido.github.io/exam_review_skill/](https://hikorido.github.io/exam_review_skill/)**
 
 Here's an example tracker generated for three fictional courses over 25 days:
 
@@ -162,6 +166,7 @@ Claude will update only the affected parts rather than rebuilding from scratch.
 revision-tracker/
 ├── SKILL.md                  # Skill instructions Claude reads
 ├── revision-tracker.skill    # Packaged skill file (install this)
+├── index.html                # GitHub Pages landing page
 ├── evals/
 │   └── evals.json            # Test cases
 └── README.md                 # This file
