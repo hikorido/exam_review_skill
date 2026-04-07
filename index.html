@@ -550,9 +550,6 @@
     <a href="https://github.com/hikorido/exam_review_skill/releases/latest/download/revision-tracker.skill" class="btn btn-primary">
       ↓ Download .skill
     </a>
-    <a href="https://hikorido.github.io/exam_review_skill/" class="btn btn-secondary">
-      Live demo ↗
-    </a>
     <a href="https://github.com/hikorido/exam_review_skill" class="btn btn-secondary">
       GitHub →
     </a>
@@ -613,7 +610,7 @@
           <div class="cdot done"></div><div class="cdot done"></div><div class="cdot done"></div>
         </div>
       </div>
-      <div class="cal-card active">
+      <div class="cal-card active" id="card-apr10">
         <div class="cal-date">Apr 10</div>
         <div class="cal-badge b-web">Web</div>
         <div class="cal-topic">HTML & CSS</div>
@@ -648,7 +645,7 @@
     </div>
 
     <!-- Detail panel for Apr 10 -->
-    <div class="detail-panel">
+    <div class="detail-panel" id="demo-panel" style="display:none">
       <div class="dp-head">
         <div>
           <div class="dp-title">HTML & CSS basics</div>
@@ -819,58 +816,78 @@
 </footer>
 
 <script>
-// Make demo session items toggleable
-document.querySelectorAll('.dp-sess').forEach(function(sess) {
-  sess.style.cursor = 'pointer';
-  sess.style.userSelect = 'none';
-  sess.addEventListener('click', function() {
-    var wasDone = sess.classList.contains('done');
-    sess.classList.toggle('done');
-    // sync the mini dot on the active card (Apr 10)
-    var dots = document.querySelectorAll('.cal-card.active .cdot');
-    var sessions = document.querySelectorAll('.dp-sess');
-    sessions.forEach(function(s, i) {
-      if (dots[i]) dots[i].classList.toggle('done', s.classList.contains('done'));
-    });
-    // update progress bar & pct
-    var total = sessions.length;
-    var done = document.querySelectorAll('.dp-sess.done').length;
-    // count all done cdots across whole calendar for overall pct
+(function() {
+  var panel = document.getElementById('demo-panel');
+  var apr10 = document.getElementById('card-apr10');
+  var apr10dots = apr10.querySelectorAll('.cdot');
+  var allCards = document.querySelectorAll('.cal-card');
+  var sessions = document.querySelectorAll('.dp-sess');
+  var pctBadge = document.querySelector('.pct-badge');
+  var progressFill = document.querySelector('.progress-fill');
+
+  // ── helper: recalculate & update progress ──
+  function updateProgress() {
     var allDots = document.querySelectorAll('.cdot');
-    var allDone = document.querySelectorAll('.cdot.done').length;
-    var pct = Math.round((allDone / allDots.length) * 100);
-    document.querySelector('.pct-badge').textContent = pct + '% done';
-    document.querySelector('.progress-fill').style.width = pct + '%';
-  });
-});
+    var doneDots = document.querySelectorAll('.cdot.done');
+    var pct = allDots.length ? Math.round(doneDots.length / allDots.length * 100) : 0;
+    pctBadge.textContent = pct + '% done';
+    progressFill.style.width = pct + '%';
+  }
 
-// Make cal cards toggle the detail panel open/close
-document.querySelectorAll('.cal-card').forEach(function(card) {
-  card.style.cursor = 'pointer';
-  card.addEventListener('click', function() {
-    var panel = document.querySelector('.detail-panel');
-    var wasActive = card.classList.contains('active');
-    // deactivate all cards
-    document.querySelectorAll('.cal-card').forEach(function(c) {
-      c.classList.remove('active');
+  // ── helper: sync Apr 10 card dots with panel sessions ──
+  function syncDots() {
+    sessions.forEach(function(s, i) {
+      if (apr10dots[i]) {
+        apr10dots[i].classList.toggle('done', s.classList.contains('done'));
+      }
     });
-    if (wasActive) {
-      panel.style.display = 'none';
-    } else {
-      card.classList.add('active');
-      panel.style.display = 'block';
-      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  });
-});
+    // also mark card done if all sessions done
+    var allDone = Array.from(sessions).every(function(s) {
+      return s.classList.contains('done');
+    });
+    apr10.classList.toggle('done', allDone);
+  }
 
-// Close button
-document.querySelector('.dp-x').style.cursor = 'pointer';
-document.querySelector('.dp-x').addEventListener('click', function(e) {
-  e.stopPropagation();
-  document.querySelector('.detail-panel').style.display = 'none';
-  document.querySelectorAll('.cal-card').forEach(function(c) { c.classList.remove('active'); });
-});
+  // ── session items: click to tick ──
+  sessions.forEach(function(sess) {
+    sess.addEventListener('click', function() {
+      sess.classList.toggle('done');
+      syncDots();
+      updateProgress();
+    });
+  });
+
+  // ── cal cards: click to open/close panel ──
+  allCards.forEach(function(card) {
+    card.addEventListener('click', function() {
+      var isApr10 = card === apr10;
+      var wasActive = card.classList.contains('active');
+
+      // close all
+      allCards.forEach(function(c) { c.classList.remove('active'); });
+      panel.style.display = 'none';
+
+      // open if it wasn't already open
+      if (!wasActive) {
+        card.classList.add('active');
+        // only apr10 has real session data — show panel for any card as a demo
+        panel.style.display = 'block';
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+
+  // ── close button ──
+  document.querySelector('.dp-x').addEventListener('click', function(e) {
+    e.stopPropagation();
+    panel.style.display = 'none';
+    allCards.forEach(function(c) { c.classList.remove('active'); });
+  });
+
+  // ── open apr10 by default to show demo ──
+  panel.style.display = 'block';
+  apr10.classList.add('active');
+})();
 </script>
 
 </body>
