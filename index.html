@@ -285,6 +285,9 @@
     background: #fff;
     border: 1px solid #e8e5dc;
     border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.15s, background 0.15s;
   }
   .dp-sess.done { border-color: #86efac; background: #f0fdf4; }
 
@@ -792,9 +795,14 @@
       <div class="install-quote">
         "My exams start May 2nd. Can you read my course folders and make me a revision plan?"
       </div>
-      <a href="https://github.com/hikorido/exam_review_skill/releases/latest/download/revision-tracker.skill" class="btn btn-primary">
-        ↓ Download .skill
-      </a>
+      <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:0.5rem;">
+        <a href="https://github.com/hikorido/exam_review_skill/releases/latest/download/revision-tracker.skill" class="btn btn-primary">
+          ↓ Download .skill
+        </a>
+        <a href="https://hikorido.github.io/exam_review_skill/" class="btn btn-secondary" style="color:#d0ccc0;border-color:rgba(255,255,255,0.2);">
+          Live demo ↗
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -809,6 +817,61 @@
     <a href="https://claude.ai/download">Get Claude Desktop</a>
   </div>
 </footer>
+
+<script>
+// Make demo session items toggleable
+document.querySelectorAll('.dp-sess').forEach(function(sess) {
+  sess.style.cursor = 'pointer';
+  sess.style.userSelect = 'none';
+  sess.addEventListener('click', function() {
+    var wasDone = sess.classList.contains('done');
+    sess.classList.toggle('done');
+    // sync the mini dot on the active card (Apr 10)
+    var dots = document.querySelectorAll('.cal-card.active .cdot');
+    var sessions = document.querySelectorAll('.dp-sess');
+    sessions.forEach(function(s, i) {
+      if (dots[i]) dots[i].classList.toggle('done', s.classList.contains('done'));
+    });
+    // update progress bar & pct
+    var total = sessions.length;
+    var done = document.querySelectorAll('.dp-sess.done').length;
+    // count all done cdots across whole calendar for overall pct
+    var allDots = document.querySelectorAll('.cdot');
+    var allDone = document.querySelectorAll('.cdot.done').length;
+    var pct = Math.round((allDone / allDots.length) * 100);
+    document.querySelector('.pct-badge').textContent = pct + '% done';
+    document.querySelector('.progress-fill').style.width = pct + '%';
+  });
+});
+
+// Make cal cards toggle the detail panel open/close
+document.querySelectorAll('.cal-card').forEach(function(card) {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', function() {
+    var panel = document.querySelector('.detail-panel');
+    var wasActive = card.classList.contains('active');
+    // deactivate all cards
+    document.querySelectorAll('.cal-card').forEach(function(c) {
+      c.classList.remove('active');
+    });
+    if (wasActive) {
+      panel.style.display = 'none';
+    } else {
+      card.classList.add('active');
+      panel.style.display = 'block';
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+});
+
+// Close button
+document.querySelector('.dp-x').style.cursor = 'pointer';
+document.querySelector('.dp-x').addEventListener('click', function(e) {
+  e.stopPropagation();
+  document.querySelector('.detail-panel').style.display = 'none';
+  document.querySelectorAll('.cal-card').forEach(function(c) { c.classList.remove('active'); });
+});
+</script>
 
 </body>
 </html>
