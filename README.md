@@ -25,24 +25,6 @@ Each study day gets 3 short sessions (25–35 min each), structured as:
 
 ---
 
-## Demo
-
-**[→ https://hikorido.github.io/exam_review_skill/](https://hikorido.github.io/exam_review_skill/)**
-
-Here's an example tracker generated for three fictional courses over 25 days:
-
-| Day | Course | Topic | Sessions |
-|-----|--------|-------|----------|
-| Apr 7 | Algorithms (closed book) | Sorting & complexity | Read Lecture 03 · Do WB2 Task 2 · Write Big-O from memory |
-| Apr 8 | Algorithms (closed book) | Trees & graphs | Read Lecture 04 · Do WB3 Task 1 · Draw BST insert from memory |
-| Apr 9 | Systems Design (closed book) | REST & HTTP | Read Slides 11 · Do lab exercise · Write a raw HTTP request |
-| Apr 10 | Web Dev (open book) | HTML & CSS | Read Slides 12–13 · Do workbook · Build notes sheet section |
-| Apr 11 | Rest / buffer | — | Light review only |
-
-> *Click a day card in the HTML tracker → see the session breakdown → tick each one off as you finish*
-
----
-
 ## Requirements
 
 - [Claude Desktop](https://claude.ai/download) with skills support
